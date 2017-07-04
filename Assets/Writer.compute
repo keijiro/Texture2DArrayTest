@@ -1,0 +1,9 @@
+﻿#pragma kernel WriterMain
+
+RWTexture2DArray<float> BufferTex;
+
+[numthreads(8, 8, 8)]
+void WriterMain(uint3 id : SV_DispatchThreadID)
+{
+    BufferTex[id] = float(id.x * 8 * 8 + id.y * 8 + id.z) / (8 * 8 * 8);
+}
