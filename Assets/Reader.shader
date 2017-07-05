@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _BufferTex("", 2DArray) = "" {}
+        _TextureArray("", 2DArray) = "" {}
     }
     SubShader
     {
@@ -16,13 +16,13 @@
 
             #include "UnityCG.cginc"
 
-            UNITY_DECLARE_TEX2DARRAY(_BufferTex);
+            UNITY_DECLARE_TEX2DARRAY(_TextureArray);
 
             fixed4 frag(v2f_img i) : SV_Target
             {
-                float3 uvw = float3(i.uv, frac(_Time.y) * 8);
-                float br = UNITY_SAMPLE_TEX2DARRAY(_BufferTex, uvw).r;
-                return br;
+                float2 uv = i.uv * float2(4, 2);
+                float3 uvw = float3(frac(uv), dot(floor(uv), float2(1, 4)));
+                return UNITY_SAMPLE_TEX2DARRAY(_TextureArray, uvw);
             }
 
             ENDCG
